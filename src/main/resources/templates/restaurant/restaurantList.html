@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>레스토랑 리스트 보여주기</h1>
+
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>시</th>
+                <th>구</th>
+                <th>동</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="restaurant : ${restaurantList}">
+                <td th:text="${restaurant.id}"></td>
+                <td th:text="${restaurant.name}"></td>
+                <td th:text="${restaurant.addressSi}"></td>
+                <td th:text="${restaurant.addressGu}"></td>
+                <td th:text="${restaurant.addressDong}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/">Home으로 돌아가기</a>
+</body>
+</html>
