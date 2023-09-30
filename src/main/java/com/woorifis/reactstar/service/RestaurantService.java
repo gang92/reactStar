@@ -1,6 +1,7 @@
 package com.woorifis.reactstar.service;
 
 import com.woorifis.reactstar.domain.Restaurant;
+import com.woorifis.reactstar.dto.AddRestaurantRequest;
 import com.woorifis.reactstar.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class RestaurantService {
     }
 
     /* 맛집 등록 */
-    public void register(Restaurant restaurant) {
-        restaurantRepository.register(restaurant);
+    public Restaurant save(AddRestaurantRequest restaurant) {
+        return restaurantRepository.save(restaurant.toEntity());
     }
     /* 전체 맛집 리스트 조회 */
     public List<Restaurant> findAll() {

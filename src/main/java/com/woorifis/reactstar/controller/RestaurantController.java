@@ -1,39 +1,44 @@
 package com.woorifis.reactstar.controller;
 
 import com.woorifis.reactstar.domain.Restaurant;
+import com.woorifis.reactstar.dto.AddRestaurantRequest;
+import com.woorifis.reactstar.dto.RestaurantResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import com.woorifis.reactstar.service.RestaurantService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.function.Function;
 
-@Controller
+@RequiredArgsConstructor
+@RestController
 public class RestaurantController {
 
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
-    @Autowired
-    public RestaurantController(RestaurantService restaurantService) {
-        this.restaurantService = restaurantService;
+    @PostMapping("/restaurants")
+    public ResponseEntity<Restaurant> addRestaurant(@RequestBody AddRestaurantRequest request) {
+        Restaurant savedRestaurant = restaurantService.save(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(savedRestaurant);
     }
 
-    @GetMapping("/restaurantList")
-    public String restaurantList(Model model) {
-        model.addAttribute("restaurantList", restaurantService.findAll());
-        return "restaurant/restaurantList";
-    }
+    @GetMapping("/restaurants")
+    public ResponseEntity<List<RestaurantResponse>> findAllRestaurants() {
+        List<RestaurantResponse> restaurants = restaurantService.findAll()
+                .stream()
+                .map(RestaurantResponse::new)
+                .toList();
 
-    @GetMapping("/registerRestaurant")
-    public String showRegisterRestaurantForm() {
-        return "restaurant/registerRestaurant";
-    }
-
-    @PostMapping("/registerRestaurant")
-    public String registerRestaurant(Restaurant restaurant) {
-        restaurantService.register(restaurant);
-        return "redirect:/";
+        return ResponseEntity.ok()
+                .body(restaurants);
     }
 }
