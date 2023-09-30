@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class RestaurantService {
 
-    private RestaurantRepository restaurantRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository) {
