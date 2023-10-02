@@ -27,9 +27,15 @@ public class Restaurant {
 
     @Column(name = "addressDong", nullable = false)
     private String addressDong;
+/*
+
+    @Column(name = "isApproved", nullable = false)
+    private String isApproved;
+*/
 
     @Builder
-    public Restaurant(String name, String addressSi, String addressGu, String addressDong) {
+    public Restaurant(Long id, String name, String addressSi, String addressGu, String addressDong) {
+        this.id = id;
         this.name = name;
         this.addressSi = addressSi;
         this.addressGu = addressGu;
