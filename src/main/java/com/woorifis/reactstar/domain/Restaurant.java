@@ -27,18 +27,17 @@ public class Restaurant {
 
     @Column(name = "addressDong", nullable = false)
     private String addressDong;
-/*
 
-    @Column(name = "isApproved", nullable = false)
-    private String isApproved;
-*/
+    @Column(name = "isConfirmed", nullable = false)
+    private String isConfirmed;
 
     @Builder
-    public Restaurant(Long id, String name, String addressSi, String addressGu, String addressDong) {
+    public Restaurant(Long id, String name, String addressSi, String addressGu, String addressDong, String isConfirmed) {
         this.id = id;
         this.name = name;
         this.addressSi = addressSi;
         this.addressGu = addressGu;
         this.addressDong = addressDong;
+        this.isConfirmed = isConfirmed;
     }
 }
