@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Restaurant} from "./components/Restaurant";
+import {RestaurantAddForm} from "./components/RestaurantAddForm";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Restaurant />
+    <RestaurantAddForm />
   </React.StrictMode>
 );
 
