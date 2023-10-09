@@ -5,12 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Restaurant} from "./components/Restaurant";
 import {RestaurantAddForm} from "./components/RestaurantAddForm";
+import {RestaurantList} from "./components/RestaurantList";
+import {RestaurantSearchForm} from "./components/RestaurantSearchForm";
+import {Header} from "./components/Header"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Restaurant />
-    <RestaurantAddForm />
+    <Header />
+    <RestaurantSearchForm />
+    <RestaurantList />
   </React.StrictMode>
 );
 
