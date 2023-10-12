@@ -8,6 +8,7 @@ import {RestaurantAddForm} from "./components/RestaurantAddForm";
 import {RestaurantList} from "./components/RestaurantList";
 import {RestaurantSearchForm} from "./components/RestaurantSearchForm";
 import {Header} from "./components/Header"
+import { ShowRestaurantDetail } from './components/ShowRestaurantDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
