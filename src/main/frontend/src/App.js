@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import AdminMenu from './admin/AdminMenu';
 
 function App() {
   return (
