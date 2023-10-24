@@ -9,6 +9,7 @@ import {RestaurantList} from "./components/RestaurantList";
 import {RestaurantSearchForm} from "./components/RestaurantSearchForm";
 import {Header} from "./components/Header"
 import { ShowRestaurantDetail } from './components/ShowRestaurantDetail';
+import NaverMap from './components/NaverMap';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
     <Header />
     <RestaurantSearchForm />
     <RestaurantList />
+    <NaverMap />
   </React.StrictMode>
 );
 
