@@ -13,3 +13,6 @@ spring:
   h2:
     console:
       enabled: true
+  sql:
+    init:
+      encoding: UTF-8
