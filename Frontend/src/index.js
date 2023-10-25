@@ -3,20 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Restaurant} from "./components/Restaurant";
-import {RestaurantAddForm} from "./components/RestaurantAddForm";
-import {RestaurantList} from "./components/RestaurantList";
-import {RestaurantSearchForm} from "./components/RestaurantSearchForm";
-import {Header} from "./components/Header"
-import { ShowRestaurantDetail } from './components/ShowRestaurantDetail';
+// import {Restaurant} from "./components/restaurant/Restaurant";
+// import {RestaurantAddForm} from "./components/restaurant/RestaurantAddForm";
+// import {RestaurantList} from "./components/restaurant/RestaurantList";
+// import {RestaurantSearchForm} from "./components/restaurant/RestaurantSearchForm";
+// import {Header} from "./components/page/Header"
+// import { ShowRestaurantDetail } from './components/restaurant/ShowRestaurantDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Header />
-    <RestaurantSearchForm />
-    <RestaurantList />
-  </React.StrictMode>
+    <React.StrictMode>
+        {/* <Header />
+        <RestaurantSearchForm />
+        <RestaurantList /> */}
+        <App />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

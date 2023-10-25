@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
+import React from 'react';
+
+import Header from './components/page/Header'
+import Footer from './components/page/Footer'
+import RestaurantList from './components/restaurant/RestaurantList'
+import logIn from './components/user/login'
+import signUp from './components/user/signup'
+import userInfo from './components/user/userInfo'
+
+import {
+    BrowserRouter,
+    Routes,
+    Route
+} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Header />
+    <BrowserRouter>
+        <Routes>
+            <Route index element={<RestaurantList />}/>
+            <Route path="/login" element={<logIn />}/>
+            <Route path="/signup" element={<signUp />}/>
+            <Route path="/user/info/:uId" element={<userInfo />}/>
+        </Routes>
+    </BrowserRouter>
+    <Footer />
+    </>
   );
 }
 
