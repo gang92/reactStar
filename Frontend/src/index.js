@@ -15,7 +15,8 @@ root.render(
     <React.StrictMode>
         {/* <Header />
         <RestaurantSearchForm />
-        <RestaurantList /> */}
+        <RestaurantList /> 
+        <NaverMap /> */}
         <App />
     </React.StrictMode>
 );
