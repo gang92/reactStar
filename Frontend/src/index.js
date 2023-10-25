@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 // import {RestaurantSearchForm} from "./components/restaurant/RestaurantSearchForm";
 // import {Header} from "./components/page/Header"
 // import { ShowRestaurantDetail } from './components/restaurant/ShowRestaurantDetail';
+// import NaverMap from './components/restaurant/NaverMap';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
