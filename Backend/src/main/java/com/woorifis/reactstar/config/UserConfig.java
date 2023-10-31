@@ -1,23 +1,24 @@
 package com.woorifis.reactstar.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.woorifis.reactstar.service.UserService;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class UserConfig {
-    //PW 암호화
-    @Bean
-    public BCryptPasswordEncoder pwEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    
+    private final UserService userService;
+    private static String secretKey = "my-secret-key-123123";
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,7 +27,7 @@ public class UserConfig {
             .csrf((csrf) -> csrf
                 .disable())
             //로그인 없이 접근 가능 페이지 "/" "/user/login" "/user/signup"
-            .addFilterBefore(new JwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JwtTokenFilter(userService,secretKey), UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers(new AntPathRequestMatcher("/**")
                     // new AntPathRequestMatcher("/user/login"),

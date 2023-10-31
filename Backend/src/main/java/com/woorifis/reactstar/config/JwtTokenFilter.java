@@ -3,7 +3,6 @@ package com.woorifis.reactstar.config;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,12 +17,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter{
-    
-    @Autowired
-    private UserService userService;
-    private final String secretKey = "secret-023151-key";
+
+    private final UserService userService;
+    private final String secretKey;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -43,7 +43,8 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 
         // Jwt Token 추출
         String token = authorizationHeader.split(" ")[1];
-
+        System.out.println(token);
+        
         // 만료 시 인증 X
         if(JwtTokenUtil.isExpired(token, secretKey)) {
             filterChain.doFilter(request, response);
@@ -51,6 +52,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
         }
 
         String UId = JwtTokenUtil.getUId(token, secretKey);
+
         Users loginUser = userService.getUserInfo(UId);
 
         // loginUser 정보로 UsernamePasswordAuthenticationToken 발급

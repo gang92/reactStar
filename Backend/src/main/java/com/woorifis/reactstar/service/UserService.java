@@ -1,11 +1,9 @@
 package com.woorifis.reactstar.service;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,15 +17,15 @@ import com.woorifis.reactstar.dto.SignUpRequest;
 import com.woorifis.reactstar.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    // @Autowired
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
     // ID 중복 확인
     public boolean checkUidDuplicate(String uid) {

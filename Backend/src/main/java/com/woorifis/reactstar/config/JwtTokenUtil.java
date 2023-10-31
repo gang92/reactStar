@@ -9,7 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenUtil {
 
     // JWT Token 발급
-    public static String createToken(String uId, String key, long expireTimeMs) {
+    public static String createToken(String uId, String secretKey, long expireTimeMs) {
         Claims claims = Jwts.claims();
         claims.put("uId", uId);
 
@@ -17,7 +17,7 @@ public class JwtTokenUtil {
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireTimeMs))
-                .signWith(SignatureAlgorithm.HS256, key)
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
                 .compact();
     }
 
@@ -35,6 +35,6 @@ public class JwtTokenUtil {
 
     // SecretKey를 사용해 Token Parsing
     private static Claims extractClaims(String token, String secretKey) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
     }
 }

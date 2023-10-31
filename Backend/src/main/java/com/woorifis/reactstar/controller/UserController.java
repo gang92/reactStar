@@ -2,9 +2,7 @@ package com.woorifis.reactstar.controller;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -22,14 +20,14 @@ import com.woorifis.reactstar.dto.LoginRequest;
 import com.woorifis.reactstar.dto.SignUpRequest;
 import com.woorifis.reactstar.service.UserService;
 
-import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController {
     
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping(value = {"","/"})
     public ResponseEntity<String> isLoggedIn(Authentication auth) {
