@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class UserConfig {
     
     private final UserService userService;
-    private static String secretKey = "my-secret-key-123123";
+    private static String secretKey = "secret-023151-key";
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
