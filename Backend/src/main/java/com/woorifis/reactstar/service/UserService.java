@@ -18,6 +18,8 @@ import com.woorifis.reactstar.dto.LoginRequest;
 import com.woorifis.reactstar.dto.SignUpRequest;
 import com.woorifis.reactstar.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService implements UserDetailsService {
     
@@ -55,6 +57,7 @@ public class UserService implements UserDetailsService {
         return new SSDetails(user);
     }
 
+    @Transactional
     public Users login(LoginRequest req) {
         if(req != null) {
             LocalDateTime date = LocalDateTime.now();
@@ -87,6 +90,7 @@ public class UserService implements UserDetailsService {
     }
 
     // 사용자 정보 업데이트
+    @Transactional
     public Users updateUser(Map<String,String> req) {
         if(req != null) {
             int res = userRepository.updateUser(req.get("name"), req.get("pw"), req.get("uId"));
@@ -102,6 +106,7 @@ public class UserService implements UserDetailsService {
     }
 
     // 사용자 삭제
+    @Transactional
     public void deleteUser(String uId) {
         if(uId != null) {
             userRepository.deleteById(uId);

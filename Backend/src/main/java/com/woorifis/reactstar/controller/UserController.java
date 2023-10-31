@@ -3,7 +3,8 @@ package com.woorifis.reactstar.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.woorifis.reactstar.config.JwtTokenUtil;
 import com.woorifis.reactstar.domain.Users;
 import com.woorifis.reactstar.dto.LoginRequest;
 import com.woorifis.reactstar.dto.SignUpRequest;
 import com.woorifis.reactstar.service.UserService;
+
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("/user")
@@ -28,60 +32,61 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = {"","/"})
-    public Boolean isLoggedIn(Model model, Authentication auth) {
+    public ResponseEntity<String> isLoggedIn(Authentication auth) {
         if(auth != null) {
             Users loginUser = userService.getUserInfo(auth.getName());
 
             if (loginUser != null) {
-                model.addAttribute("name", loginUser.getName());
+                return new ResponseEntity<String>(loginUser.getName(), HttpStatus.OK);
             }
-
-            return true;
         }
 
-        return false;
+        return new ResponseEntity<String>("Not Logged In", HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Users> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         if(request != null) {
             Users user = userService.login(request);
-
+            
             if(user != null) {
-                return ResponseEntity.ok().body(user);
+                String secretKey = "secret-023151-key";
+                long expireTimeMs = 1000 * 60 * 60;
+                String jwtToken = JwtTokenUtil.createToken(user.getUid(), secretKey, expireTimeMs);
+
+                return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
             }
             else {
-                return ResponseEntity.notFound().build();
+                return new ResponseEntity<String>("Failed to Login", HttpStatus.NOT_FOUND);
             }
         }
 
-        return ResponseEntity.badRequest().build();
+        return new ResponseEntity<String>("Failed to Login",HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Users> signUp(@RequestBody SignUpRequest request) {
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
         if(request != null) {
             if(!userService.checkUidDuplicate(request.getUid())) {
                 userService.signUp(request);
     
-                return ResponseEntity.ok().build();
+                return new ResponseEntity<String>("Signed Up!", HttpStatus.OK);
             }
         }
-
-        return ResponseEntity.badRequest().build();
+        return new ResponseEntity<String>("Failed to Signup", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/info/{uId}")
-    public ResponseEntity<Users> userInfo(Model model, Authentication auth, @PathVariable("uId") String uId) {
+    public ResponseEntity<Users> userInfo(Authentication auth, @PathVariable("uId") String uId) {
         if(auth != null) {
             Users user = userService.getUserInfo(uId);
             
             if(user != null) {
-                return ResponseEntity.ok().body(user);
+                return new ResponseEntity<Users>(user, HttpStatus.OK);
             }
         }
 
-        return ResponseEntity.badRequest().build();
+        return new ResponseEntity<Users>( HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/info/{uId}")
@@ -90,21 +95,21 @@ public class UserController {
             Users user = userService.updateUser(request);
 
             if(user != null) {
-                return ResponseEntity.ok().body(user);
+                return new ResponseEntity<Users>(user, HttpStatus.OK);
             }
         }
 
-        return ResponseEntity.badRequest().build();
+        return new ResponseEntity<Users>( HttpStatus.BAD_REQUEST);
     }
     
     @DeleteMapping("/delete/{uId}")
-    public ResponseEntity<Users> deleteUser(Authentication auth, @PathVariable("uId") String uId) {
+    public ResponseEntity<String> deleteUser(Authentication auth, @PathVariable("uId") String uId) {
         if(auth != null) {
             userService.deleteUser(uId);
         
-            return ResponseEntity.ok().build();
+            return new ResponseEntity<String>("Deleted "+uId, HttpStatus.OK);
         }
         
-        return ResponseEntity.badRequest().build();
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 }

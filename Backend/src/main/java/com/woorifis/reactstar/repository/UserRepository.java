@@ -18,11 +18,11 @@ public interface UserRepository extends JpaRepository<Users,String> {
     Optional<Users> findByUid(String uid);
 
     @Modifying
-    @Query(value="UPDATE Users u SET name=:name and pw=:pw where u.id = :uId", nativeQuery=true)
+    @Query(value="UPDATE Users u SET name=:name and pw=:pw where u.uid = :uId", nativeQuery=true)
     int updateUser(@Param(value="name") String name, @Param(value="pw") String pw, @Param(value="uId") String uId);
 
     @Modifying
-    @Query(value="UPDATE Users u SET u.lgn_dt = :lgn_dt WHERE u.id = :uId", nativeQuery=true)
+    @Query(value="UPDATE Users u SET u.lgn_dt = :lgn_dt WHERE u.uid = :uId", nativeQuery=true)
     int updateLgnDt(@Param(value="lgn_dt") LocalDateTime lgn_dt, @Param(value="uId") String uId);
 
     void deleteById(String uId);
