@@ -1,20 +1,25 @@
 package com.woorifis.reactstar.service;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.woorifis.reactstar.domain.User;
+import com.woorifis.reactstar.config.SSDetails;
+import com.woorifis.reactstar.domain.Users;
 import com.woorifis.reactstar.dto.LoginRequest;
 import com.woorifis.reactstar.dto.SignUpRequest;
 import com.woorifis.reactstar.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     
     @Autowired
     private UserRepository userRepository;
@@ -34,23 +39,30 @@ public class UserService {
     // 회원가입
     public void signUp(SignUpRequest req) {
         if(req != null) {
-            java.util.Date utilDate = new java.util.Date();
-            Date date = new Date(utilDate.getTime());
+            LocalDateTime date = LocalDateTime.now();
     
             userRepository.save(req.toEntity(encoder.encode(req.getPw()),date));
         }
     }
 
     // 로그인
-    public User login(LoginRequest req) {
+    @Override
+    public UserDetails loadUserByUsername(String Uid) throws UsernameNotFoundException {
+        Users user = userRepository.findByUid(Uid)
+            .orElseThrow(() -> { return new UsernameNotFoundException("해당 유저를 찾을 수 없습니다.");
+        });
+        
+        return new SSDetails(user);
+    }
+
+    public Users login(LoginRequest req) {
         if(req != null) {
-            java.util.Date utilDate = new java.util.Date();
-            Date date = new Date(utilDate.getTime());
+            LocalDateTime date = LocalDateTime.now();
             int res = userRepository.updateLgnDt(date,req.getUid());
             
             if(res != 0) {
-                Optional<User> reqUser = userRepository.findByUid(req.getUid());
-                User user = reqUser.get();
+                Optional<Users> reqUser = userRepository.findByUid(req.getUid());
+                Users user = reqUser.get();
         
                 if(encoder.matches(req.getPw(),user.getPw())) {
                     return user;
@@ -62,9 +74,9 @@ public class UserService {
     }
 
     // 사용자 정보 조회
-    public User getUserInfo(String uId) {
+    public Users getUserInfo(String uId) {
         if(uId != null) {
-            Optional<User> user = userRepository.findByUid(uId);
+            Optional<Users> user = userRepository.findByUid(uId);
 
             if(!user.isEmpty()) {
                 return user.get();
@@ -75,12 +87,12 @@ public class UserService {
     }
 
     // 사용자 정보 업데이트
-    public User updateUser(Map<String,String> req) {
+    public Users updateUser(Map<String,String> req) {
         if(req != null) {
             int res = userRepository.updateUser(req.get("name"), req.get("pw"), req.get("uId"));
             
             if(res != 0) {
-                User user = getUserInfo(req.get("uId"));
+                Users user = getUserInfo(req.get("uId"));
                 
                 return user;
             }

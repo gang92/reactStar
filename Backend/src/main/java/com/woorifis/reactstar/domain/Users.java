@@ -1,6 +1,10 @@
 package com.woorifis.reactstar.domain;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import com.woorifis.reactstar.config.UserRole;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -12,9 +16,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid", updatable = false)
     private String uid;
 
@@ -25,16 +28,17 @@ public class User {
     private String pw;
 
     @Column(name = "auth", nullable = false)
-    private int auth;
+    private UserRole auth;
 
     @Column(name = "cr_dt", nullable = false)
-    private Date cr_dt;
+    @CreatedDate
+    private LocalDateTime cr_dt;
 
     @Column(name = "lgn_dt", nullable = true)
-    private Date lgn_dt;
+    private LocalDateTime lgn_dt;
 
     @Builder
-    public User(String uid, String name, String pw, int auth, Date cr_dt, Date lgn_dt) {
+    public Users(String uid, String name, String pw, UserRole auth, LocalDateTime cr_dt, LocalDateTime lgn_dt) {
         this.uid = uid;
         this.name = name;
         this.pw = pw;

@@ -1,8 +1,9 @@
 package com.woorifis.reactstar.dto;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
-import com.woorifis.reactstar.domain.User;
+import com.woorifis.reactstar.config.UserRole;
+import com.woorifis.reactstar.domain.Users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,9 +16,6 @@ public class SignUpRequest {
     private String uid;
     private String name;
     private String pw;
-    private int auth;
-    private Date cr_dt;
-    private Date lgn_dt;
 
     // public User toEntity() {
     //     return User.builder()
@@ -30,12 +28,12 @@ public class SignUpRequest {
     //             .build();
     // }
 
-    public User toEntity(String encryptPw, Date newCrDt) {
-        return User.builder()
+    public Users toEntity(String encryptPw, LocalDateTime newCrDt) {
+        return Users.builder()
                 .uid(uid)
                 .name(name)
                 .pw(encryptPw)
-                .auth(0)
+                .auth(UserRole.USER)
                 .cr_dt(newCrDt)
                 .lgn_dt(null)
                 .build();

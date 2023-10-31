@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +25,8 @@ public class UserConfig {
     @Bean
     public WebSecurityCustomizer customize() {
         return (web) -> web.ignoring()
-            .requestMatchers("/");
+            .requestMatchers(new AntPathRequestMatcher("/")
+            );
     }
 
     @Bean
@@ -31,10 +35,14 @@ public class UserConfig {
             //크로스 사이트
             .csrf((csrf) -> csrf
                 .disable())
-            //로그인 없이 접근 가능 페이지
+            //로그인 없이 접근 가능 페이지 "/" "/user/login" "/user/signup"
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/user/login", "/user/signup").permitAll()
-                .requestMatchers("/user/admin").hasAuthority("0")
+                .requestMatchers(new AntPathRequestMatcher("/"),
+                new AntPathRequestMatcher("/user/login"),
+                new AntPathRequestMatcher("/user/signup")
+                ).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/user/admin"))
+                .hasAuthority(UserRole.ADMIN.name())
                 .anyRequest().authenticated())
             //로그인 체크 시 타는 URL
             .formLogin((form) -> form

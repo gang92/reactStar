@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.woorifis.reactstar.domain.User;
+import com.woorifis.reactstar.domain.Users;
 import com.woorifis.reactstar.dto.LoginRequest;
 import com.woorifis.reactstar.dto.SignUpRequest;
 import com.woorifis.reactstar.service.UserService;
@@ -30,7 +30,7 @@ public class UserController {
     @GetMapping(value = {"","/"})
     public Boolean isLoggedIn(Model model, Authentication auth) {
         if(auth != null) {
-            User loginUser = userService.getUserInfo(auth.getName());
+            Users loginUser = userService.getUserInfo(auth.getName());
 
             if (loginUser != null) {
                 model.addAttribute("name", loginUser.getName());
@@ -43,9 +43,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Users> login(@RequestBody LoginRequest request) {
         if(request != null) {
-            User user = userService.login(request);
+            Users user = userService.login(request);
 
             if(user != null) {
                 return ResponseEntity.ok().body(user);
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signUp(@RequestBody SignUpRequest request) {
+    public ResponseEntity<Users> signUp(@RequestBody SignUpRequest request) {
         if(request != null) {
             if(!userService.checkUidDuplicate(request.getUid())) {
                 userService.signUp(request);
@@ -72,9 +72,9 @@ public class UserController {
     }
 
     @GetMapping("/info/{uId}")
-    public ResponseEntity<User> userInfo(Model model, Authentication auth, @PathVariable("uId") String uId) {
+    public ResponseEntity<Users> userInfo(Model model, Authentication auth, @PathVariable("uId") String uId) {
         if(auth != null) {
-            User user = userService.getUserInfo(uId);
+            Users user = userService.getUserInfo(uId);
             
             if(user != null) {
                 return ResponseEntity.ok().body(user);
@@ -85,9 +85,9 @@ public class UserController {
     }
 
     @PostMapping("/info/{uId}")
-    public ResponseEntity<User> updateNameAndPw(Authentication auth, @RequestBody Map<String,String> request) {
+    public ResponseEntity<Users> updateNameAndPw(Authentication auth, @RequestBody Map<String,String> request) {
         if(auth != null) {
-            User user = userService.updateUser(request);
+            Users user = userService.updateUser(request);
 
             if(user != null) {
                 return ResponseEntity.ok().body(user);
@@ -98,7 +98,7 @@ public class UserController {
     }
     
     @DeleteMapping("/delete/{uId}")
-    public ResponseEntity<User> deleteUser(Authentication auth, @PathVariable("uId") String uId) {
+    public ResponseEntity<Users> deleteUser(Authentication auth, @PathVariable("uId") String uId) {
         if(auth != null) {
             userService.deleteUser(uId);
         
