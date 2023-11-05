@@ -1,14 +1,16 @@
 // import logo from './logo.svg';
 // import './App.css';
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import RestaurantList from './components/restaurant/RestaurantList';
+import logIn from './components/user/login';
+import admin from './components/admin/admin';
+import signUp from './components/user/signup';
+import userInfo from './components/user/userInfo';
+import restaurantAddForm from './components/restaurant/RestaurantAddForm';
+import restaurant from './components/restaurant/Restaurant';
 import Header from './components/page/Header'
-import Footer from './components/page/Footer'
-import RestaurantList from './components/restaurant/RestaurantList'
-import logIn from './components/user/login'
-import signUp from './components/user/signup'
-import userInfo from './components/user/userInfo'
-import AdminMenu from './admin/AdminMenu'
 
 import {
     BrowserRouter,
@@ -19,17 +21,19 @@ import {
 function App() {
   return (
     <>
-    <Header />
-    <BrowserRouter>
-        <Routes>
-            <Route index element={<RestaurantList />}/>
-            <Route path="/login" element={<logIn />}/>
-            <Route path="/signup" element={<signUp />}/>
-            <Route path="/user/info/:uId" element={<userInfo />}/>
-        </Routes>
-    </BrowserRouter>
-    <Footer />
+      <BrowserRouter>
+          <Routes>
+              <Route index element={<RestaurantList />}/>
+              <Route path="/login" element={<logIn />}/>
+              <Route path="/user/admin" element={<admin />}/>
+              <Route path="/signup" element={<signUp />}/>
+              <Route path="/user/info/:uId" element={<userInfo />}/>
+              <Route path="/restaurant/post" element={<restaurantAddForm />}/>
+              <Route path="/restaurant/:name" element={<restaurant />}/>
+          </Routes>
+      </BrowserRouter>
     </>
+    
   );
 }
 

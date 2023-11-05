@@ -3,13 +3,15 @@ import {Restaurant} from "./Restaurant";
 import axios from "axios";
 import { ShowRestaurantDetail } from "./ShowRestaurantDetail";
 
+import Footer from '../page/Footer'
 
-export const RestaurantList = (props) => {
+const RestaurantList = (props,{children}) => {
     const [restaurants, setRestaurants] = useState([]);
     const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/restaurants").then((res) => {setRestaurants(res.data);
+        axios.get("http://localhost:8080/api/restaurants").then((res) => {setRestaurants(res.data);
+        console.log(res.data);
         })
     }, []);
     
@@ -37,6 +39,9 @@ export const RestaurantList = (props) => {
               <ShowRestaurantDetail restaurantId={selectedRestaurantId} />
             )}
           </div>
+          <Footer />
         </div>
       );
     };
+
+export default RestaurantList;

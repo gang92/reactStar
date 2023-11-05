@@ -16,7 +16,7 @@ export const RestaurantAddForm = () => {
     const handleSubmit = event => {
         event.preventDefault();
 
-        axios.post("http://localhost:3000/api/restaurants", {
+        axios.post("http://localhost:8080/api/restaurants", {
             name : restaurant.name,
             addressSi : restaurant.addressSi,
             addressGu : restaurant.addressGu,

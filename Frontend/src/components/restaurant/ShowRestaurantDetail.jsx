@@ -7,7 +7,7 @@ export const ShowRestaurantDetail = ({ restaurantId }) => {
   useEffect(() => {
     // 이펙트를 이용하여 레스토랑 상세 정보를 가져옵니다.
     if (restaurantId) {
-      axios.get(`http://localhost:3000/api/restaurants/${restaurantId}`)
+      axios.get(`http://localhost:8080/api/restaurants/${restaurantId}`)
         .then((res) => {
           setRestaurantDetail(res.data);
         })
