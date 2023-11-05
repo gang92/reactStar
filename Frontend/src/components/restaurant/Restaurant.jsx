@@ -1,5 +1,11 @@
 ///** @jsxImportSource @emotion/react */
 //import { jsx, css } from "@emotion/react";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
+const Table = {
+    border: "1px solid black"
+}
 
 export const Restaurant = (props) => {
     // const containerStyle = css`
@@ -33,12 +39,16 @@ export const Restaurant = (props) => {
         //     <p>{addressGu}</p>
         //     <p>{addressDong}</p>
         // </div>
-        <div onClick={handleClick}>
-            <p>{id}</p>
-            <p>{name}</p>
-            <p>{addressSi}</p>
-            <p>{addressGu}</p>
-            <p>{addressDong}</p>
-        </div>
+        <Row onClick={handleClick}>
+            <Col style={Table}>
+                <p>{id}</p>
+            </Col>
+            <Col style={Table}>
+                <p>{name}</p>
+            </Col>
+            <Col style={Table}>
+                <p>{addressSi} {addressGu} {addressDong}</p>
+            </Col>
+        </Row>
     );
 };

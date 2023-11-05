@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import {Restaurant} from "./Restaurant";
 import axios from "axios";
-import { ShowRestaurantDetail } from "./ShowRestaurantDetail";
+import { useNavigate } from "react-router-dom";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-import Footer from '../page/Footer'
+const Table = {
+    border: "1px solid black"
+}
 
 const RestaurantList = (props,{children}) => {
     const [restaurants, setRestaurants] = useState([]);
     const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+    const navigate = useNavigate() ;
 
     useEffect(() => {
         axios.get("http://localhost:8080/api/restaurants").then((res) => {setRestaurants(res.data);
@@ -16,30 +22,31 @@ const RestaurantList = (props,{children}) => {
     }, []);
     
     const handleRestaurantClick = (restaurantId) => {
-        console.log("Restaurant clicked with ID:", restaurantId);
+        // console.log("Restaurant clicked with ID:", restaurantId);
         setSelectedRestaurantId(restaurantId);
       };
-    
+
+      
       return (
         <div>
-          <div>
+          <Container>
+            <Row style={Table}>
+              <Col style={Table}>번호</Col>
+              <Col style={Table}>이름</Col>
+              <Col style={Table}>주소</Col>
+            </Row>
             {restaurants.map((restaurant) => (
               <Restaurant
+                key={restaurant.id}
                 id={restaurant.id}
                 name={restaurant.name}
                 addressSi={restaurant.addressSi}
                 addressGu={restaurant.addressGu}
                 addressDong={restaurant.addressDong}
-                onClick={() => handleRestaurantClick(restaurant.id)}
+                onClick={() => navigate(`/restaurant/${restaurant.id}`)}
               />
             ))}
-          </div>
-          <div>
-            {selectedRestaurantId && (
-              <ShowRestaurantDetail restaurantId={selectedRestaurantId} />
-            )}
-          </div>
-          <Footer />
+          </Container>
         </div>
       );
     };

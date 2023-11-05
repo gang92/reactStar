@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export const RestaurantAddForm = () => {
 
@@ -33,14 +36,60 @@ export const RestaurantAddForm = () => {
         
     }
 
+    const Width = {
+        width:"30%",
+        align:"left"
+    }
+
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="name" onChange={inputChanged} value={restaurant.name} placeholder="맛집 이름을 입력해 주세요."></input><br/>
-            <input type="text" name="addressSi" onChange={inputChanged} value={restaurant.addressSi} placeholder="시를 입력해 주세요."></input><br/>
-            <input type="text" name="addressGu" onChange={inputChanged} value={restaurant.addressGu} placeholder="구를 입력해 주세요."></input><br/>
-            <input type="text" name="addressDong" onChange={inputChanged} value={restaurant.addressDong} placeholder="동을 입력해 주세요."></input><br/>
-            <input type="submit" value="Press me"></input>
-        </form>
+        <div>
+            <h2>맛집 신청하기</h2>
+            <div>
+                <form onSubmit={handleSubmit}> 
+                    <Container style={Width}>
+                        <Row>
+                            <Col>
+                                <label>이름</label>
+                            </Col>
+                            <Col>
+                                <input type="text" name="name" onChange={inputChanged} value={restaurant.name} placeholder="맛집 이름을 입력해 주세요."></input><br/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>시</label>
+                            </Col>
+                            <Col>
+                                <input type="text" name="addressSi" onChange={inputChanged} value={restaurant.addressSi} placeholder="시를 입력해 주세요."></input><br/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>동</label>
+                            </Col>
+                            <Col>
+                                <input type="text" name="addressGu" onChange={inputChanged} value={restaurant.addressGu} placeholder="구를 입력해 주세요."></input><br/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>구</label>
+                            </Col>
+                            <Col>
+                                <input type="text" name="addressDong" onChange={inputChanged} value={restaurant.addressDong} placeholder="동을 입력해 주세요."></input><br/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                            </Col>
+                            <Col>
+                                <input type="submit" value="신청하기"></input>
+                            </Col>
+                        </Row>
+                    </Container>
+                </form>
+            </div>
+        </div>
     )
 }
 
